@@ -1,0 +1,21 @@
+import {createReducer} from 'typesafe-actions';
+import {vpnInitialState} from './state';
+import {vpnAction, vpnActionConnect, vpnActionSelectCountry} from './action';
+import {VpnModel} from '../model';
+
+export const vpnReducer = createReducer(vpnInitialState)
+  .handleAction(vpnAction, (state: VpnModel) => {
+    return {
+      ...state,
+      isLogin: true,
+    };
+  })
+  .handleAction(vpnActionConnect.request, (state: VpnModel) => ({...state}))
+  .handleAction(vpnActionConnect.success, (state: VpnModel) => ({
+    ...state,
+    isConnected: true,
+  }))
+  .handleAction(vpnActionSelectCountry, (state: VpnModel, action) => ({
+    ...state,
+    currentCountry: action.payload,
+  }));
