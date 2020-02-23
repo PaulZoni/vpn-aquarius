@@ -11,7 +11,6 @@ const RootNavigationStack = createStackNavigator(
     initialRouteName: 'Main',
     headerMode: 'none',
     mode: 'modal',
-    //cardStyle: { opacity: 1 },
     transparentCard: true,
   },
 );

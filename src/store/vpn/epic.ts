@@ -1,45 +1,40 @@
 import {isActionOf} from 'typesafe-actions';
-import {
-  ActionsObservable,
-  Epic as RoEpic,
-  EpicMiddleware as RoEpicMiddleware,
-} from 'redux-observable';
-import {
-  map,
-  filter,
-  switchMap,
-  catchError,
-  takeUntil,
-  // delay,
-} from 'rxjs/operators';
-import {from, of} from 'rxjs';
+import {ActionsObservable} from 'redux-observable';
+import {filter, map, switchMap} from 'rxjs/operators';
+import {Observable, of, from} from 'rxjs';
 import {Epic, RootAction} from '../types';
-import {Observable} from 'rxjs';
-import {vpnAction, vpnActionConnect} from './action';
+import {vpnActionConnect, vpnActionStop} from './action';
 
-export const startVpn: Epic = (
+export const stopVpn: Epic = (
   action$: ActionsObservable<RootAction>,
   state$,
   {apiVpn},
 ): Observable<any> => {
   return action$.pipe(
-    filter(isActionOf(vpnAction)),
-    switchMap(action => {
-      const x = '';
-      apiVpn.startVpn(x, x);
-      return of();
-    }),
+    filter(isActionOf(vpnActionStop.request)),
+    switchMap(action =>
+      from(apiVpn.stopVpn()).pipe(
+        map(({data, errors}) => {
+          return vpnActionStop.success();
+        }),
+      ),
+    ),
   );
 };
 
 export const connectVpn: Epic = (
   action$: ActionsObservable<RootAction>,
   state$,
+  {apiVpn},
 ): Observable<any> => {
   return action$.pipe(
     filter(isActionOf(vpnActionConnect.request)),
     switchMap(action => {
-      return of(vpnActionConnect.success());
+      return from(apiVpn.startVpn()).pipe(
+        map(({data, errors}) => {
+          return vpnActionConnect.success();
+        }),
+      );
     }),
   );
 };

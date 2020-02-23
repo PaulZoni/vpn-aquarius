@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.6",
-    "@types/react-native-vector-icons": "^6.4.5",
     "react": "16.9.0",
     "react-native": "0.61.5",
     "react-native-gesture-handler": "^1.5.3",
@@ -36,6 +35,7 @@
     "@types/jest": "^24.9.1",
     "@types/react": "^16.9.17",
     "@types/react-native": "^0.60.27",
+    "@types/react-native-vector-icons": "^6.4.5",
     "@types/react-redux": "^7.1.6",
     "@types/react-test-renderer": "^16.9.2",
     "@types/styled-components": "^4.4.2",

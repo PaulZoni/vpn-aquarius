@@ -1,9 +1,6 @@
 package com.vpn
 
-import com.facebook.react.bridge.ReactApplicationContext
-import com.facebook.react.bridge.ReactContextBaseJavaModule
-import com.facebook.react.bridge.ReactMethod
-import com.facebook.react.bridge.Callback
+import com.facebook.react.bridge.*
 import com.facebook.react.uimanager.IllegalViewOperationException
 
 class VPNModule(context: ReactApplicationContext): ReactContextBaseJavaModule(context) {
@@ -14,22 +11,22 @@ class VPNModule(context: ReactApplicationContext): ReactContextBaseJavaModule(co
   }
 
   @ReactMethod
-  fun startVpn(callback: Callback, errorCallback: Callback) {
+  fun startVpn(promise: Promise) {
     try {
-      VPN.instance.startVpn { string -> callback.invoke(string) }
+      VPN.instance.startVpn { string -> promise.resolve(string) }
     } catch (e: IllegalViewOperationException) {
       println(e.message)
-      errorCallback.invoke(e.message)
+      promise.reject(e.message)
     }
   }
 
   @ReactMethod
-  fun stopVpn(callback: Callback, errorCallback: Callback) {
+  fun stopVpn(promise: Promise) {
     try {
-      VPN.instance.stopVpn { string  -> callback.invoke(string) }
+      VPN.instance.stopVpn { string  -> promise.resolve(string) }
     } catch (e: IllegalViewOperationException) {
       println(e.message)
-      errorCallback.invoke(e.message)
+      promise.reject(e.message)
     }
   }
 }

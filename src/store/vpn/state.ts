@@ -7,6 +7,7 @@ export enum DefaultState {
 export const vpnInitialState: VpnModel = {
   isLogin: false,
   isConnected: false,
+  connecting: false,
   countryList: [],
   currentCountry: DefaultState.CurrentCountry,
 };
