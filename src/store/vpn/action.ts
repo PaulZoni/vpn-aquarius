@@ -10,7 +10,7 @@ export const vpnActionConnect = createAsyncAction(
   'vpn/connect_REQUEST',
   'vpn/connect_SUCCESS',
   'vpn/connect_FAILURE',
-)<undefined, undefined>();
+)<undefined, undefined, undefined>();
 
 export const vpnActionStop = createAsyncAction(
   'vpn/stop_REQUEST',

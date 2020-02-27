@@ -9,11 +9,12 @@ const buttonSize = windowHeight / 6;
 interface Props {
   onPress: () => void;
   isConnected: boolean;
+  disabled: boolean;
 }
 
 // pause / play
-const ButtonConnect = ({onPress, isConnected}: Props) => (
-  <Container onPress={onPress}>
+const ButtonConnect = ({onPress, isConnected, disabled}: Props) => (
+  <Container disabled={disabled} activeOpacity={0.8} onPress={onPress}>
     {isConnected ? (
       <Icon name="pause" size={30} color="#4675E8" />
     ) : (

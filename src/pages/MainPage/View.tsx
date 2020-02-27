@@ -13,6 +13,7 @@ interface Props {
   onPressStartButton: () => void;
   isConnected: boolean;
   indicatorIsActive: boolean;
+  disabled: boolean;
 }
 
 const MainView = ({
@@ -21,6 +22,7 @@ const MainView = ({
   onPressStartButton,
   isConnected,
   indicatorIsActive,
+  disabled,
 }: Props) => {
   StatusBar.setBarStyle('light-content');
   return (
@@ -35,6 +37,7 @@ const MainView = ({
           <TextVPN>VPN</TextVPN>
           <ButtonConnectWrapper>
             <ButtonConnect
+              disabled={disabled}
               isConnected={isConnected}
               onPress={onPressStartButton}
             />

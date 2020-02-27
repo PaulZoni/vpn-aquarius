@@ -19,7 +19,7 @@ public class MainActivity: ReactActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    VPN.instance.login { string -> toast(string) }
+    VPN.instance.login { string -> println(string) }
   }
 
   override fun createReactActivityDelegate(): ReactActivityDelegate {
@@ -37,6 +37,7 @@ public class MainActivity: ReactActivity() {
 
   override fun onDestroy() {
     VPN.instance.logout { string -> println(string) }
+    VPN.instance.stopVpn { string -> println(string) }
     super.onDestroy()
   }
 }

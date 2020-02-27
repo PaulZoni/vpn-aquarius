@@ -1,6 +1,6 @@
 import {isActionOf} from 'typesafe-actions';
 import {ActionsObservable} from 'redux-observable';
-import {filter, map, switchMap} from 'rxjs/operators';
+import {filter, map, switchMap, catchError} from 'rxjs/operators';
 import {Observable, of, from} from 'rxjs';
 import {Epic, RootAction} from '../types';
 import {vpnActionConnect, vpnActionStop} from './action';
@@ -31,9 +31,15 @@ export const connectVpn: Epic = (
     filter(isActionOf(vpnActionConnect.request)),
     switchMap(action => {
       return from(apiVpn.startVpn()).pipe(
-        map(({data, errors}) => {
-          return vpnActionConnect.success();
-        }),
+        map(
+          ({data, errors}) => {
+            return vpnActionConnect.success();
+          },
+          catchError(err => {
+            alert('error');
+            return of(vpnActionConnect.failure());
+          }),
+        ),
       );
     }),
   );

@@ -3,6 +3,7 @@ package com.vpn
 import android.util.Log
 import com.anchorfree.partner.api.ClientInfo
 import com.anchorfree.partner.api.auth.AuthMethod
+import com.anchorfree.partner.api.response.AvailableCountries
 import com.anchorfree.partner.api.response.User
 import com.anchorfree.reporting.TrackingConstants
 import com.anchorfree.sdk.NotificationConfig
@@ -129,6 +130,19 @@ class VPN private constructor() {
 
   fun remainingTraffic(callback: (rx: Long, tx: Long) -> Unit) {
     UnifiedSDK.addTrafficListener { rx, tx -> callback(rx, tx) }
+  }
+
+  fun getCounties(callback: (availableCountries: AvailableCountries) -> Unit) {
+    unifiedSDK?.backend?.countries(object: Callback<AvailableCountries> {
+      override fun success(p0: AvailableCountries) {
+        callback(p0)
+      }
+
+      override fun failure(p0: VpnException) {
+
+      }
+
+    })
   }
 }
 
