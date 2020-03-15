@@ -6,7 +6,7 @@ import {Country} from '../../components';
 interface Props {
   onClickListener: (countryName: string) => void;
   currentCountry: string;
-  countryList: string[];
+  countryList: string[] | undefined;
 }
 
 const CountriesView = ({
@@ -48,18 +48,20 @@ const CountriesView = ({
           <TextSelect>Choose country</TextSelect>
         </Header>
         <SeparateLane />
-        <CountryLust
-          keyExtractor={(item: string, _: number) => item}
-          data={countryList}
-          renderItem={({item}) => (
-            <Country
-              isSelected={isSelected(item)}
-              onClick={onClickListener}
-              text={item}
-              key={item}
-            />
-          )}
-        />
+        {countryList && (
+          <CountryLust
+            keyExtractor={(item: string, _: number) => item}
+            data={countryList}
+            renderItem={({item}) => (
+              <Country
+                isSelected={isSelected(item)}
+                onClick={onClickListener}
+                text={item}
+                key={item}
+              />
+            )}
+          />
+        )}
       </Modal>
     </Container>
   );

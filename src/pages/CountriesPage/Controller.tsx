@@ -1,14 +1,16 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StatusBar} from 'react-native';
 import View from './View';
 import {useDispatch} from 'react-redux';
 import {Actions} from '../../store/vpn/action';
-import {useCurrentCountry} from '../../store/selectors';
+import {useCurrentCountry, useCountryList} from '../../store/selectors';
 import {useNavigation} from '../../navigation';
 
-const fakeCountry = [...Array(20)].map((_, index, __) => `country: ${index}`);
-
 const Controller = () => {
+  const countryList = useCountryList();
+  const [countryNameList, setCountryNameList] = useState<string[] | undefined>(
+    undefined,
+  );
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const currentCountry = useCurrentCountry();
@@ -19,11 +21,18 @@ const Controller = () => {
 
   useEffect(() => {
     StatusBar.setBarStyle('light-content');
+    dispatch(Actions.vpnActionGetCountries());
   }, []);
+
+  useEffect(() => {
+    if (countryList) {
+      setCountryNameList(Array.from(countryList.keys()));
+    }
+  }, [countryList]);
 
   return (
     <View
-      countryList={fakeCountry}
+      countryList={countryNameList}
       onClickListener={selectCountry}
       currentCountry={currentCountry}
     />

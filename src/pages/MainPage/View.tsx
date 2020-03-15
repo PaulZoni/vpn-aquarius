@@ -3,6 +3,8 @@ import {View, Text, StatusBar, Dimensions} from 'react-native';
 import styled from 'styled-components';
 import LinearGradient from 'react-native-linear-gradient';
 import {SelectCountryButton, ButtonConnect} from '../../components';
+import {TrafficLayout} from '../../layout';
+import {TrafficObject} from '../../store/model';
 
 const windowHeight = Dimensions.get('window').height;
 const gradientArea = (windowHeight / 100) * 40;
@@ -14,6 +16,7 @@ interface Props {
   isConnected: boolean;
   indicatorIsActive: boolean;
   disabled: boolean;
+  trafficObject: TrafficObject;
 }
 
 const MainView = ({
@@ -23,6 +26,7 @@ const MainView = ({
   isConnected,
   indicatorIsActive,
   disabled,
+  trafficObject,
 }: Props) => {
   StatusBar.setBarStyle('light-content');
   return (
@@ -59,6 +63,14 @@ const MainView = ({
         />
       </HeaderExternalGradient>
       <BodyContainer>
+        <TrafficContainer>
+          <TrafficLayout
+            receive={trafficObject.receive}
+            transmit={trafficObject.transmit}
+          />
+        </TrafficContainer>
+        <MapView>
+        </MapView>
         <SelectCountryButton
           currentCountry={currentCountry}
           onClick={clickOnCountryList}
@@ -148,6 +160,15 @@ const Indicator = styled(View)<{isActive: boolean}>`
   background-color: ${({isActive}) => (isActive ? '#6bf24e' : '#465443')};
   align-self: center;
   elevation: 6;
+`;
+
+const TrafficContainer = styled(View)`
+  flex: 0.5;
+  background-color: #312;
+`;
+
+const MapView = styled(View)`
+  flex: 1.5;
 `;
 
 export default MainView;

@@ -8,15 +8,8 @@ import {
 } from '../../store/selectors';
 import {useDispatch} from 'react-redux';
 import {Actions} from '../../store/vpn/action';
-import {NativeModules} from 'react-native';
-
-const vpnAndroid = NativeModules.VPNModule;
-
-// @ts-ignore
-const getCountries = async () => {
-  const result = await vpnAndroid.getCountries();
-  alert(JSON.stringify(result));
-};
+import {DeviceEventEmitter} from 'react-native';
+import {TrafficObject} from '../../store/model';
 
 const Controller = () => {
   const navigation = useNavigation();
@@ -24,18 +17,15 @@ const Controller = () => {
   const isConnected = useIsConnectedFlag();
   const connecting = useIsConnectingFlag();
   const [indicatorIsActive, setIndicatorIsActive] = useState<boolean>(false);
+  const [trafficObject, setTrafficObject] = useState<TrafficObject>({
+    receive: 0,
+    transmit: 0,
+  });
   const [timerId, setTimerId] = useState();
   const dispatch = useDispatch();
   const clickOnCountryList = () => {
     navigation.navigate('Countries');
   };
-
-  useEffect(() => {
-    setTimeout(() => {
-      getCountries().then(() => alert('getCountries'));
-      //vpnAndroid.getCountries();
-    }, 3000);
-  }, []);
 
   useEffect(() => {
     if (connecting) {
@@ -49,19 +39,25 @@ const Controller = () => {
     }
   }, [connecting, isConnected]);
 
+  useEffect(() => {
+    DeviceEventEmitter.addListener('trafficEvent', trafficEventListener);
+    return () => DeviceEventEmitter.removeAllListeners('trafficEvent');
+  }, []);
+
+  const trafficEventListener = (event: TrafficObject) =>
+    setTrafficObject(event);
+
   const onPressStartButton = () => {
     if (isConnected) {
       dispatch(Actions.vpnActionStop());
     } else {
       dispatch(Actions.vpnActionConnect());
-      // todo жестокий костыль: не сробатывает с первого раза
-      //  при первом старте
-      setTimeout(() => dispatch(Actions.vpnActionConnect()), 2000);
     }
   };
 
   return (
     <MainView
+      trafficObject={trafficObject}
       disabled={connecting}
       indicatorIsActive={indicatorIsActive}
       isConnected={isConnected}

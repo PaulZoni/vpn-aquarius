@@ -10,21 +10,15 @@ import com.anchorfree.sdk.NotificationConfig
 import com.anchorfree.sdk.SessionConfig
 import com.anchorfree.sdk.UnifiedSDK
 import com.anchorfree.sdk.UnifiedSDKConfig
-import com.anchorfree.sdk.rules.TrafficRule
 import com.anchorfree.vpnsdk.callbacks.Callback
 import com.anchorfree.vpnsdk.callbacks.CompletableCallback
-import com.anchorfree.vpnsdk.exceptions.VpnException
-import com.anchorfree.vpnsdk.vpnservice.VPNState
 import com.anchorfree.vpnsdk.callbacks.VpnStateListener
+import com.anchorfree.vpnsdk.exceptions.VpnException
+import com.anchorfree.vpnsdk.transporthydra.HydraTransport
+import com.anchorfree.vpnsdk.vpnservice.VPNState
 
 class VPN private constructor() {
   private var unifiedSDK: UnifiedSDK? = null
-  private val defaultSession = SessionConfig.Builder()
-    .withVirtualLocation(UnifiedSDK.COUNTRY_OPTIMAL)
-    .withReason(TrackingConstants.GprReasons.M_UI)
-    .addDnsRule(TrafficRule.Builder.bypass().fromDomains(arrayListOf("*facebook.com", "*wtfismyip.com")))
-    .build()
-
   companion object {
     val instance: VPN = VPN()
   }
@@ -75,9 +69,15 @@ class VPN private constructor() {
   }
 
   fun startVpn(callback: (string: String) -> Unit) {
-    unifiedSDK
-      ?.vpn
-      ?.start(defaultSession, object: CompletableCallback {
+    val defaultSession = SessionConfig.Builder()
+      .withReason(TrackingConstants.GprReasons.M_UI)
+      .withTransport(HydraTransport.TRANSPORT_ID)
+      .withVirtualLocation(UnifiedSDK.COUNTRY_OPTIMAL)
+      .build()
+
+    UnifiedSDK.getInstance()
+      .vpn
+      .start(defaultSession, object: CompletableCallback {
         override fun complete() {
           callback("connect")
         }
@@ -89,9 +89,9 @@ class VPN private constructor() {
   }
 
   fun stopVpn(callback: (string: String) -> Unit) {
-    unifiedSDK
-      ?.vpn
-      ?.stop(TrackingConstants.GprReasons.M_UI, object : CompletableCallback {
+    UnifiedSDK.getInstance()
+      .vpn
+      .stop(TrackingConstants.GprReasons.M_UI, object : CompletableCallback {
       override fun complete() {
         callback("stop vpn")
       }
@@ -103,9 +103,14 @@ class VPN private constructor() {
   }
 
   fun restartVpn(callback: (string: String) -> Unit) {
-    unifiedSDK
-      ?.vpn
-      ?.restart(defaultSession, object: CompletableCallback {
+    val defaultSession = SessionConfig.Builder()
+      .withVirtualLocation(UnifiedSDK.COUNTRY_OPTIMAL)
+      .withReason(TrackingConstants.GprReasons.M_UI)
+      .build()
+
+    UnifiedSDK.getInstance()
+      .vpn
+      .restart(defaultSession, object: CompletableCallback {
       override fun complete() {
         callback("connect")
       }
@@ -116,7 +121,7 @@ class VPN private constructor() {
     })
   }
 
-  fun trafficListener(callback: (string: String) -> Unit) {
+  fun stateListener(callback: (string: String) -> Unit) {
     UnifiedSDK.addVpnStateListener(object : VpnStateListener {
       override fun vpnStateChanged(vpnState: VPNState) {
         callback(vpnState.name)
@@ -128,20 +133,27 @@ class VPN private constructor() {
     })
   }
 
-  fun remainingTraffic(callback: (rx: Long, tx: Long) -> Unit) {
+  fun trafficListener(callback: (rx: Long, tx: Long) -> Unit) {
     UnifiedSDK.addTrafficListener { rx, tx -> callback(rx, tx) }
   }
 
+  fun getVpnState(callback: () -> Unit) {
+    UnifiedSDK.getVpnState(object: Callback<VPNState> {
+      override fun success(p0: VPNState) {
+        callback()
+      }
+
+      override fun failure(p0: VpnException) {}
+    })
+  }
+
   fun getCounties(callback: (availableCountries: AvailableCountries) -> Unit) {
-    unifiedSDK?.backend?.countries(object: Callback<AvailableCountries> {
+    UnifiedSDK.getInstance().backend.countries(object: Callback<AvailableCountries> {
       override fun success(p0: AvailableCountries) {
         callback(p0)
       }
 
-      override fun failure(p0: VpnException) {
-
-      }
-
+      override fun failure(p0: VpnException) {}
     })
   }
 }

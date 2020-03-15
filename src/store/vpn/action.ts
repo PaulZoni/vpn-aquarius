@@ -1,4 +1,5 @@
 import {createAction, createAsyncAction} from 'typesafe-actions';
+import {CountryList} from '../model';
 // <Record<string, VpnModel>>
 export const vpnAction = createAction('vpn/login_REQUEST')();
 
@@ -18,15 +19,23 @@ export const vpnActionStop = createAsyncAction(
   'vpn/stop_FAILURE',
 )<undefined, undefined>();
 
+export const vpnActionGetCountries = createAsyncAction(
+  'vpn/GetCountries_REQUEST',
+  'vpn/GetCountries_SUCCESS',
+  'vpn/GetCountries_FAILURE',
+)<undefined, CountryList, undefined>();
+
 export const Actions = {
   vpnAction: vpnAction,
   vpnActionConnect: vpnActionConnect.request,
   vpnActionStop: vpnActionStop.request,
   vpnActionSelectCountry,
+  vpnActionGetCountries: vpnActionGetCountries.request,
 };
 
 export type Action =
   | typeof vpnAction
   | typeof vpnActionConnect
   | typeof vpnActionStop
+  | typeof vpnActionGetCountries
   | typeof vpnActionSelectCountry;

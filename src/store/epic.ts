@@ -1,4 +1,4 @@
 import { combineEpics } from 'redux-observable';
-import { stopVpn, connectVpn } from './vpn/epic';
+import { stopVpn, connectVpn, getCountries } from './vpn/epic';
 
-export default combineEpics(stopVpn, connectVpn);
+export default combineEpics(stopVpn, connectVpn, getCountries);

@@ -15,3 +15,7 @@ export const useIsConnectedFlag = () => useSelector(isConnected) || false;
 const isConnecting = (state: RootState) => state.vpn && state.vpn.connecting;
 
 export const useIsConnectingFlag = () => useSelector(isConnecting) || false;
+
+const countryList = (state: RootState) => state.vpn && state.vpn.countryList;
+
+export const useCountryList = () => useSelector(countryList) || undefined;

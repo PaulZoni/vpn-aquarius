@@ -2,16 +2,14 @@ import {NativeModules} from 'react-native';
 
 export const vpnAndroid = NativeModules.VPNModule;
 
-interface VPNCallback {
-  call: (response: (res: string) => void, error: (err: string) => void) => void;
-}
-
 export interface VPN {
-  startVpn: () => void;
-  stopVpn: () => void;
+  startVpn: () => Promise<string>;
+  stopVpn: () => Promise<string>;
+  getCountries: () => Promise<Object>;
 }
 
 export const Vpn: VPN = {
   startVpn: vpnAndroid.startVpn,
   stopVpn: vpnAndroid.stopVpn,
+  getCountries: vpnAndroid.getCountries,
 };

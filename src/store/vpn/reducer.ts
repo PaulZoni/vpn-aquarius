@@ -3,6 +3,7 @@ import {vpnInitialState} from './state';
 import {
   vpnAction,
   vpnActionConnect,
+  vpnActionGetCountries,
   vpnActionSelectCountry,
   vpnActionStop,
 } from './action';
@@ -36,4 +37,11 @@ export const vpnReducer = createReducer(vpnInitialState)
   .handleAction(vpnActionStop.request, (state: VpnModel, action) => ({
     ...state,
     connecting: true,
-  }));
+  }))
+  .handleAction(
+    vpnActionGetCountries.success,
+    (state: VpnModel, action): VpnModel => ({
+      ...state,
+      countryList: action.payload,
+    }),
+  );

@@ -4,11 +4,14 @@ export enum DefaultState {
   CurrentCountry = 'DefaultCountry',
 }
 
+export const DefaultCountryList: Map<string, number> = new Map();
+DefaultCountryList.set('in', 37);
+
 export const vpnInitialState: VpnModel = {
   isLogin: false,
   isConnected: false,
   connecting: false,
-  countryList: [],
+  countryList: undefined,
   currentCountry: DefaultState.CurrentCountry,
 };
 
