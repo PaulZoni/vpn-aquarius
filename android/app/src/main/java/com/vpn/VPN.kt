@@ -88,6 +88,26 @@ class VPN private constructor() {
       })
   }
 
+  fun startVpn(country: String, callback: (string: String) -> Unit) {
+    val session = SessionConfig.Builder()
+      .withReason(TrackingConstants.GprReasons.M_UI)
+      .withTransport(HydraTransport.TRANSPORT_ID)
+      .withVirtualLocation(country)
+      .build()
+
+    UnifiedSDK.getInstance()
+      .vpn
+      .start(session, object: CompletableCallback {
+        override fun complete() {
+          callback("connect")
+        }
+
+        override fun error(p0: VpnException) {
+          callback("connect error")
+        }
+      })
+  }
+
   fun stopVpn(callback: (string: String) -> Unit) {
     UnifiedSDK.getInstance()
       .vpn
@@ -102,9 +122,9 @@ class VPN private constructor() {
     })
   }
 
-  fun restartVpn(callback: (string: String) -> Unit) {
+  fun restartVpn(selectCountry: String, callback: (string: String) -> Unit) {
     val defaultSession = SessionConfig.Builder()
-      .withVirtualLocation(UnifiedSDK.COUNTRY_OPTIMAL)
+      .withVirtualLocation(selectCountry)
       .withReason(TrackingConstants.GprReasons.M_UI)
       .build()
 

@@ -1,7 +1,7 @@
 import {VpnModel} from '../model';
 
 export enum DefaultState {
-  CurrentCountry = 'DefaultCountry',
+  CurrentCountry = '',
 }
 
 export const DefaultCountryList: Map<string, number> = new Map();

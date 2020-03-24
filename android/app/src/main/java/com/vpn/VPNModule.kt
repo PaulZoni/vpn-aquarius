@@ -62,6 +62,21 @@ class VPNModule(context: ReactApplicationContext): ReactContextBaseJavaModule(co
   }
 
   @ReactMethod
+  fun startVpnWithCountry(country: String, promise: Promise) {
+    BackgroundTask(NativeModuleCallExceptionHandler {
+      Toast.makeText(context, "error", Toast.LENGTH_SHORT).show()
+    }) {
+      try {
+        VPN.instance.startVpn(country) { string ->
+          promise.resolve(string)
+        }
+      } catch (e: IllegalViewOperationException) {
+        println(e.message)
+      }
+    }.execute()
+  }
+
+  @ReactMethod
   fun stopVpn(promise: Promise) {
     BackgroundTask(NativeModuleCallExceptionHandler {
       Toast.makeText(context, "error", Toast.LENGTH_SHORT).show()
@@ -70,6 +85,17 @@ class VPNModule(context: ReactApplicationContext): ReactContextBaseJavaModule(co
         VPN.instance.stopVpn { string  -> promise.resolve(string) }
       } catch (e: IllegalViewOperationException) {
         println(e.message)
+      }
+    }.execute()
+  }
+
+  @ReactMethod
+  fun restartVpnWithNewCountry(newCountry: String, promise: Promise) {
+    BackgroundTask(NativeModuleCallExceptionHandler {
+      Toast.makeText(context, "restart error", Toast.LENGTH_SHORT).show()
+    }) {
+      VPN.instance.restartVpn(selectCountry = newCountry) {
+        promise.resolve(it)
       }
     }.execute()
   }

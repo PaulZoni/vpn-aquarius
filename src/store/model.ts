@@ -3,7 +3,7 @@ export type CountryList = Map<string, number>;
 export interface VpnModel {
   isLogin: boolean;
   isConnected: boolean;
-  connecting: false;
+  connecting: boolean;
   countryList: CountryList | undefined;
   currentCountry: string;
 }

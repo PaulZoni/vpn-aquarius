@@ -10,6 +10,7 @@ import {useDispatch} from 'react-redux';
 import {Actions} from '../../store/vpn/action';
 import {DeviceEventEmitter} from 'react-native';
 import {TrafficObject} from '../../store/model';
+import {DefaultState} from '../../store/vpn/state';
 
 const Controller = () => {
   const navigation = useNavigation();
@@ -51,7 +52,11 @@ const Controller = () => {
     if (isConnected) {
       dispatch(Actions.vpnActionStop());
     } else {
-      dispatch(Actions.vpnActionConnect());
+      if (currentCountry === DefaultState.CurrentCountry) {
+        dispatch(Actions.vpnActionConnect());
+      } else {
+        dispatch(Actions.vpnActionConnectWithCountry());
+      }
     }
   };
 

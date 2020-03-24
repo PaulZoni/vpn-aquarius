@@ -13,6 +13,18 @@ export const vpnActionConnect = createAsyncAction(
   'vpn/connect_FAILURE',
 )<undefined, undefined, undefined>();
 
+export const vpnActionConnectWithCountry = createAsyncAction(
+  'vpn/connectWithCountry_REQUEST',
+  'vpn/connectWithCountry_SUCCESS',
+  'vpn/connectWithCountry_FAILURE',
+)<undefined, undefined, undefined>();
+
+export const vpnActionRestartWithCountry = createAsyncAction(
+  'vpn/restartWithCountry_REQUEST',
+  'vpn/restartWithCountry_SUCCESS',
+  'vpn/restartWithCountry_FAILURE',
+)<undefined, undefined, undefined>();
+
 export const vpnActionStop = createAsyncAction(
   'vpn/stop_REQUEST',
   'vpn/stop_SUCCESS',
@@ -28,9 +40,11 @@ export const vpnActionGetCountries = createAsyncAction(
 export const Actions = {
   vpnAction: vpnAction,
   vpnActionConnect: vpnActionConnect.request,
+  vpnActionConnectWithCountry: vpnActionConnectWithCountry.request,
   vpnActionStop: vpnActionStop.request,
   vpnActionSelectCountry,
   vpnActionGetCountries: vpnActionGetCountries.request,
+  vpnActionRestartWithCountry: vpnActionRestartWithCountry.request,
 };
 
 export type Action =
@@ -38,4 +52,6 @@ export type Action =
   | typeof vpnActionConnect
   | typeof vpnActionStop
   | typeof vpnActionGetCountries
+  | typeof vpnActionConnectWithCountry
+  | typeof vpnActionRestartWithCountry
   | typeof vpnActionSelectCountry;

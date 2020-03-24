@@ -3,11 +3,16 @@ import {StatusBar} from 'react-native';
 import View from './View';
 import {useDispatch} from 'react-redux';
 import {Actions} from '../../store/vpn/action';
-import {useCurrentCountry, useCountryList} from '../../store/selectors';
+import {
+  useCurrentCountry,
+  useCountryList,
+  useIsConnectedFlag,
+} from '../../store/selectors';
 import {useNavigation} from '../../navigation';
 
 const Controller = () => {
   const countryList = useCountryList();
+  const isVpnConnected = useIsConnectedFlag();
   const [countryNameList, setCountryNameList] = useState<string[] | undefined>(
     undefined,
   );
@@ -17,6 +22,8 @@ const Controller = () => {
   const selectCountry = (countryName: string) => {
     navigation.goBack();
     dispatch(Actions.vpnActionSelectCountry(countryName));
+    if (isVpnConnected) dispatch(Actions.vpnActionRestartWithCountry());
+    else dispatch(Actions.vpnActionConnectWithCountry());
   };
 
   useEffect(() => {
