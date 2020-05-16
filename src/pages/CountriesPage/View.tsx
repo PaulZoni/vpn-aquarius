@@ -1,7 +1,18 @@
-import {View, Text, Animated, FlatList} from 'react-native';
+import {
+  View,
+  Text,
+  Animated,
+  FlatList,
+  ActivityIndicator,
+  StyleSheet,
+} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import {Country} from '../../components';
+
+const styles = StyleSheet.create({
+  countryLustContainer: {paddingBottom: 60},
+});
 
 interface Props {
   onClickListener: (countryName: string) => void;
@@ -30,6 +41,34 @@ const CountriesView = ({
     };
   }, [fadeAnim]);
 
+  const renderItem = ({item}: {item: string}) => (
+    <Country
+      isSelected={isSelected(item)}
+      onClick={onClickListener}
+      text={item}
+      key={item}
+    />
+  );
+
+  const renderList = () => {
+    if (countryList && countryList.length === 0) {
+      return (
+        <EmptyContainer>
+          <EmptyCountry>No Country</EmptyCountry>
+        </EmptyContainer>
+      );
+    } else {
+      return (
+        <CountryLust
+          contentContainerStyle={styles.countryLustContainer}
+          keyExtractor={(item: string, _: number) => item}
+          data={countryList}
+          renderItem={renderItem}
+        />
+      );
+    }
+  };
+
   return (
     <Container
       style={{
@@ -48,19 +87,12 @@ const CountriesView = ({
           <TextSelect>Choose country</TextSelect>
         </Header>
         <SeparateLane />
-        {countryList && (
-          <CountryLust
-            keyExtractor={(item: string, _: number) => item}
-            data={countryList}
-            renderItem={({item}) => (
-              <Country
-                isSelected={isSelected(item)}
-                onClick={onClickListener}
-                text={item}
-                key={item}
-              />
-            )}
-          />
+        {countryList ? (
+          renderList()
+        ) : (
+          <EmptyContainer>
+            <ActivityIndicator size="large" color="#1db0e4" />
+          </EmptyContainer>
         )}
       </Modal>
     </Container>
@@ -107,6 +139,17 @@ const Container = styled(Animated.View)`
   height: 100%;
   display: flex;
   justify-content: flex-end;
+`;
+
+const EmptyContainer = styled(View)`
+  flex: 1;
+  justify-content: center;
+`;
+
+const EmptyCountry = styled(Text)`
+  align-self: center;
+  font-size: 18px;
+  font-weight: bold;
 `;
 
 export default CountriesView;

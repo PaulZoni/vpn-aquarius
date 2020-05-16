@@ -1,10 +1,19 @@
 import React from 'react';
-import {View, Text, StatusBar, Dimensions} from 'react-native';
+import {
+  View,
+  Text,
+  StatusBar,
+  Dimensions,
+  requireNativeComponent,
+  StyleSheet,
+} from 'react-native';
 import styled from 'styled-components';
 import LinearGradient from 'react-native-linear-gradient';
 import {SelectCountryButton, ButtonConnect} from '../../components';
 import {TrafficLayout} from '../../layout';
 import {TrafficObject} from '../../store/model';
+const RCTLinerChart = requireNativeComponent('RCTLinerChart');
+const ABSBoard = requireNativeComponent('ABSBoard');
 
 const windowHeight = Dimensions.get('window').height;
 const gradientArea = (windowHeight / 100) * 40;
@@ -70,7 +79,11 @@ const MainView = ({
           />
         </TrafficContainer>
         <MapView>
+          <RCTLinerChart style={styles.RCTLinerChart} />
         </MapView>
+        <ABSView>
+          <ABSBoard style={styles.ABSBoard} />
+        </ABSView>
         <SelectCountryButton
           currentCountry={currentCountry}
           onClick={clickOnCountryList}
@@ -79,6 +92,17 @@ const MainView = ({
     </RootContainer>
   );
 };
+
+const styles = StyleSheet.create({
+  ABSBoard: {
+    width: '100%',
+    height: '100%',
+  },
+  RCTLinerChart: {
+    height: '100%',
+    width: '100%',
+  },
+});
 
 const RootContainer = styled(View)`
   width: 100%;
@@ -164,11 +188,14 @@ const Indicator = styled(View)<{isActive: boolean}>`
 
 const TrafficContainer = styled(View)`
   flex: 0.5;
-  background-color: #312;
 `;
 
 const MapView = styled(View)`
-  flex: 1.5;
+  flex: 1.2;
+`;
+
+const ABSView = styled(View)`
+  flex: 0.3;
 `;
 
 export default MainView;

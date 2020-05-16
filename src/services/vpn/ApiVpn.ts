@@ -1,4 +1,5 @@
 import {NativeModules} from 'react-native';
+import {VPNState} from '../../store/model';
 
 export const vpnAndroid = NativeModules.VPNModule;
 
@@ -8,6 +9,7 @@ export interface VPN {
   restartVpnWithNewCountry: (country: string) => Promise<string>;
   stopVpn: () => Promise<string>;
   getCountries: () => Promise<Object>;
+  getVpnState: () => Promise<VPNState>;
 }
 
 export const Vpn: VPN = {
@@ -16,4 +18,5 @@ export const Vpn: VPN = {
   restartVpnWithNewCountry: vpnAndroid.restartVpnWithNewCountry,
   stopVpn: vpnAndroid.stopVpn,
   getCountries: vpnAndroid.getCountries,
+  getVpnState: vpnAndroid.getVpnState,
 };

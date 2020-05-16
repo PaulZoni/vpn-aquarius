@@ -7,10 +7,11 @@ import {
   useIsConnectingFlag,
 } from '../../store/selectors';
 import {useDispatch} from 'react-redux';
-import {Actions} from '../../store/vpn/action';
+import {Actions, vpnActionTurnOnIndicator} from '../../store/vpn/action';
 import {DeviceEventEmitter} from 'react-native';
-import {TrafficObject} from '../../store/model';
+import {TrafficObject, VPNState, VPNStateObject} from '../../store/model';
 import {DefaultState} from '../../store/vpn/state';
+import {Vpn} from '../../services/vpn/ApiVpn';
 
 const Controller = () => {
   const navigation = useNavigation();
@@ -22,6 +23,7 @@ const Controller = () => {
     receive: 0,
     transmit: 0,
   });
+
   const [timerId, setTimerId] = useState();
   const dispatch = useDispatch();
   const clickOnCountryList = () => {
@@ -42,11 +44,32 @@ const Controller = () => {
 
   useEffect(() => {
     DeviceEventEmitter.addListener('trafficEvent', trafficEventListener);
-    return () => DeviceEventEmitter.removeAllListeners('trafficEvent');
+    DeviceEventEmitter.addListener('VpnStateListener', vpnStateListener);
+    return () => {
+      DeviceEventEmitter.removeAllListeners('trafficEvent');
+      DeviceEventEmitter.removeListener('VpnStateListener', vpnStateListener);
+    };
   }, []);
 
-  const trafficEventListener = (event: TrafficObject) =>
+  useEffect(() => {
+    Vpn.getVpnState().then(state => {
+      //alert(state)
+      if ((state === VPNState.CONNECTED || state === VPNState.PAUSED) && !isConnected) {
+        //alert('CONNECTED');
+        dispatch(Actions.vpnActionTurnOnIndicator());
+      }
+
+      if (state === VPNState.IDLE && isConnected) {
+        alert('IDLE');
+      }
+    });
+  }, []);
+
+  const trafficEventListener = (event: TrafficObject) => {
     setTrafficObject(event);
+  };
+
+  const vpnStateListener = (state: VPNStateObject) => {};
 
   const onPressStartButton = () => {
     if (isConnected) {

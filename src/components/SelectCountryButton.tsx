@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Text, TouchableOpacity, View, Image} from 'react-native';
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -10,7 +10,9 @@ interface Props {
 
 const SelectCountryButton = ({currentCountry, onClick}: Props) => (
   <Button onPress={onClick}>
-    <FakeIcon />
+    <FakeIcon
+      source={{uri: `https://www.countryflags.io/${currentCountry}/shiny/64.png`}}
+    />
     <CurrentCountry>{currentCountry}</CurrentCountry>
     <IconDown name="chevron-down" size={20} />
   </Button>
@@ -35,7 +37,7 @@ const CurrentCountry = styled(Text)`
   color: rgba(1, 1, 1, 0.8);
 `;
 
-const FakeIcon = styled(View)`
+const FakeIcon = styled(Image)`
   width: 40px;
   height: 40px;
   border-radius: 40px;

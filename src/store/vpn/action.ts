@@ -7,6 +7,10 @@ export const vpnActionSelectCountry = createAction(
   'vpn/select_country_REQUEST',
 )<string>();
 
+export const vpnActionTurnOffIndicator = createAction('vpn/TurnOffIndicator')();
+
+export const vpnActionTurnOnIndicator = createAction('vpn/TurnOnIndicator')();
+
 export const vpnActionConnect = createAsyncAction(
   'vpn/connect_REQUEST',
   'vpn/connect_SUCCESS',
@@ -45,6 +49,8 @@ export const Actions = {
   vpnActionSelectCountry,
   vpnActionGetCountries: vpnActionGetCountries.request,
   vpnActionRestartWithCountry: vpnActionRestartWithCountry.request,
+  vpnActionTurnOnIndicator,
+  vpnActionTurnOffIndicator,
 };
 
 export type Action =
@@ -54,4 +60,6 @@ export type Action =
   | typeof vpnActionGetCountries
   | typeof vpnActionConnectWithCountry
   | typeof vpnActionRestartWithCountry
+  | typeof vpnActionTurnOffIndicator
+  | typeof vpnActionTurnOnIndicator
   | typeof vpnActionSelectCountry;

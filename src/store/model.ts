@@ -12,3 +12,13 @@ export type TrafficObject = {
   receive: number;
   transmit: number;
 };
+
+export type VPNStateObject = {
+  vpnState: VPNState;
+};
+
+export enum VPNState {
+  CONNECTED = 'CONNECTED',
+  IDLE = 'IDLE',
+  PAUSED = 'PAUSED',
+}

@@ -8,6 +8,8 @@ import {
   vpnActionStop,
   vpnActionConnectWithCountry,
   vpnActionRestartWithCountry,
+  vpnActionTurnOffIndicator,
+  vpnActionTurnOnIndicator,
 } from './action';
 import {VpnModel} from '../model';
 
@@ -31,12 +33,12 @@ export const vpnReducer = createReducer(vpnInitialState)
     ...state,
     currentCountry: action.payload,
   }))
-  .handleAction(vpnActionStop.success, (state: VpnModel, action) => ({
+  .handleAction(vpnActionStop.success, (state: VpnModel) => ({
     ...state,
     isConnected: false,
     connecting: false,
   }))
-  .handleAction(vpnActionStop.request, (state: VpnModel, action) => ({
+  .handleAction(vpnActionStop.request, (state: VpnModel) => ({
     ...state,
     connecting: true,
   }))
@@ -72,6 +74,22 @@ export const vpnReducer = createReducer(vpnInitialState)
   )
   .handleAction(
     vpnActionRestartWithCountry.success,
+    (state: VpnModel): VpnModel => ({
+      ...state,
+      isConnected: true,
+      connecting: false,
+    }),
+  )
+  .handleAction(
+    vpnActionTurnOffIndicator,
+    (state: VpnModel): VpnModel => ({
+      ...state,
+      isConnected: false,
+      connecting: false,
+    }),
+  )
+  .handleAction(
+    vpnActionTurnOnIndicator,
     (state: VpnModel): VpnModel => ({
       ...state,
       isConnected: true,
