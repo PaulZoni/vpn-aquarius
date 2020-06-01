@@ -70,10 +70,6 @@ class ReactChartManager: SimpleViewManager<LineChart>() {
     return chart
   }
 
-  fun readLine() {
-
-  }
-
   override fun getName(): String {
     return "RCTLinerChart"
   }

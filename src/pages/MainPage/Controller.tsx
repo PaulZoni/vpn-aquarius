@@ -7,7 +7,7 @@ import {
   useIsConnectingFlag,
 } from '../../store/selectors';
 import {useDispatch} from 'react-redux';
-import {Actions, vpnActionTurnOnIndicator} from '../../store/vpn/action';
+import {Actions} from '../../store/vpn/action';
 import {DeviceEventEmitter} from 'react-native';
 import {TrafficObject, VPNState, VPNStateObject} from '../../store/model';
 import {DefaultState} from '../../store/vpn/state';
@@ -53,9 +53,7 @@ const Controller = () => {
 
   useEffect(() => {
     Vpn.getVpnState().then(state => {
-      //alert(state)
       if ((state === VPNState.CONNECTED || state === VPNState.PAUSED) && !isConnected) {
-        //alert('CONNECTED');
         dispatch(Actions.vpnActionTurnOnIndicator());
       }
 

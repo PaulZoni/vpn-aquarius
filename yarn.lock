@@ -2238,11 +2238,6 @@ csstype@^2.2.0:
   resolved "https://registry.npmjs.org/csstype/-/csstype-2.6.8.tgz#0fb6fc2417ffd2816a418c9336da74d7f07db431"
   integrity sha512-msVS9qTuMT5zwAGCVm4mxfrZ18BNc6Csd0oJAtiFMZ1FAx1CCvy2+5MDmYoix63LM/6NDbNtodCiGYGmFgO0dA==
 
-cubic-spline@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/cubic-spline/-/cubic-spline-1.0.4.tgz#de2897aa59402aa8f913e408ebff79f9bd1727ac"
-  integrity sha1-3iiXqllAKqj5E+QI6/95+b0XJ6w=
-
 dashdash@^1.12.0:
   version "1.14.1"
   resolved "https://registry.npmjs.org/dashdash/-/dashdash-1.14.1.tgz#853cfa0f7cbe2fed5de20326b8dd581035f6e2f0"
@@ -4477,7 +4472,7 @@ mem@^4.0.0:
     mimic-fn "^2.0.0"
     p-is-promise "^2.0.0"
 
-memoize-one@^5.0.0, memoize-one@^5.0.4:
+memoize-one@^5.0.0:
   version "5.1.1"
   resolved "https://registry.npmjs.org/memoize-one/-/memoize-one-5.1.1.tgz#047b6e3199b508eaec03504de71229b8eb1d75c0"
   integrity sha512-HKeeBpWvqiVJD57ZUAsJNm71eHTykffzcLZVYWiVfQeI1rJtuEaS7hQiEpWfVVk18donPwJEcFKIkCmPJNOhHA==
@@ -5586,16 +5581,6 @@ react-native-reanimated@^1.7.0:
   version "1.7.0"
   resolved "https://registry.npmjs.org/react-native-reanimated/-/react-native-reanimated-1.7.0.tgz#896db2576552ac59d288a1f6c7f00afc171f240c"
   integrity sha512-FQWSqP605eQVJumuK2HpR+7heF0ZI+qfy4jNguv3Xv8nPFHeIgZaRTXHCEQL2AcuSIj50zy8jGJf5l134QMQWQ==
-
-react-native-responsive-linechart@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/react-native-responsive-linechart/-/react-native-responsive-linechart-2.2.0.tgz#7cf174fa9bdf02263f6339badc01b8ce627833d8"
-  integrity sha512-gDsdZVzhNRK6fTWLfH7KMz20FHbUQMxFM3C0Y9zlzy1yf22qspkBDoO8dBHT6nMyrM+Ama4pboWziJTkJ23p7Q==
-  dependencies:
-    cubic-spline "^1.0.4"
-    deepmerge "^3.2.0"
-    lodash "^4.17.11"
-    memoize-one "^5.0.4"
 
 react-native-safe-area-context@^0.6.2:
   version "0.6.2"

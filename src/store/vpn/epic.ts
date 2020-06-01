@@ -29,18 +29,19 @@ export const stopVpn: Epic = (
 export const connectVpn: Epic = (
   action$: ActionsObservable<RootAction>,
   state$,
-  {apiVpn},
+  {apiVpn, InterstitialAdModule},
 ) =>
   action$.pipe(
     filter(isActionOf(vpnActionConnect.request)),
-    switchMap(action =>
-      from(apiVpn.startVpn()).pipe(
+    switchMap(action => {
+      InterstitialAdModule.show();
+      return from(apiVpn.startVpn()).pipe(
         map(
           data => vpnActionConnect.success(),
           catchError(err => of(vpnActionConnect.failure())),
         ),
-      ),
-    ),
+      );
+    }),
   );
 
 export const connectVpnWithCountry: Epic = (

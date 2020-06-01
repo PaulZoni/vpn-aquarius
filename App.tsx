@@ -6,8 +6,12 @@ import {vpnInitialState} from './src/store/vpn/state';
 import epic from './src/store/epic';
 import NavigationStack from './src/navigation';
 import {createServices} from './src/services';
+import {NativeModules} from 'react-native';
 
-const services = createServices({apiGatewayClient: {}, history: {}});
+const services = createServices({
+  apiGatewayClient: {},
+  InterstitialAdModule: NativeModules.InterstitialAdModule,
+});
 const App: React.FC = () => {
   const rootReducer = createRootReducer();
   const store = createStore({

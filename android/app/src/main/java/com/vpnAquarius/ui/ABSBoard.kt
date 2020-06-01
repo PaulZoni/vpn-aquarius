@@ -9,7 +9,7 @@ class ABSBoard: SimpleViewManager<ReactAdView>() {
     val v = ReactAdView(reactContext)
     // prod ca-app-pub-2335690523420671/7006242659
     // test ca-app-pub-3940256099942544/6300978111
-    v.setAdUnitID("ca-app-pub-3940256099942544/6300978111")
+    v.setAdUnitID("ca-app-pub-2335690523420671/7006242659")
     v.setAdSize(AdSize.BANNER)
     v.loadBanner()
     return v

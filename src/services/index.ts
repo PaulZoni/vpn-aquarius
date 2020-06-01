@@ -1,23 +1,24 @@
 import {Vpn} from './vpn/ApiVpn';
 interface FakeApolloClient {}
 export type fakeApolloClient = FakeApolloClient;
-
-interface HistoryInterface {}
-type History = HistoryInterface;
+interface InterstitialAdI {
+  show: () => void;
+}
+type InterstitialAd = InterstitialAdI;
 
 const authService = {};
 
 export interface CreateServices {
   apiGatewayClient: fakeApolloClient;
-  history: History;
+  InterstitialAdModule: InterstitialAd;
 }
 
 export const createServices = ({
   apiGatewayClient,
-  history,
+  InterstitialAdModule,
 }: CreateServices) => ({
   authService,
   apiGatewayService: apiGatewayClient,
-  history,
+  InterstitialAdModule,
   apiVpn: Vpn,
 });

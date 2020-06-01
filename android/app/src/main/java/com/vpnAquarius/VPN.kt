@@ -44,7 +44,6 @@ class VPN private constructor() {
 
   fun login(callback: (string: String) -> Unit) {
     val authMethod = AuthMethod.anonymous()
-    //val authMethod = AuthMethod.customOauth("AIzaSyC2BgHGciUuhzo6nCPIsbM4CDL0hrOQMZ8")
       unifiedSDK
       ?.backend
       ?.login(authMethod, object: Callback<User> {
